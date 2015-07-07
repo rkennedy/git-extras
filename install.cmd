@@ -22,6 +22,6 @@ FOR %%i in (%COMMANDS_WITHOUT_REPO%) DO (
 	MORE +2 %GITEXTRAS%\bin\%%i >> %PREFIX%\bin\%%i
 )
 
-ROBOCOPY %GITEXTRAS%\man %HTMLDIR% *.html
+ROBOCOPY %GITEXTRAS%\man\man1 %HTMLDIR% *.html
 
 @ECHO ON
