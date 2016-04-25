@@ -1,7 +1,7 @@
 .\" generated with Ronn/v0.7.3
 .\" http://github.com/rtomayko/ronn/tree/0.7.3
 .
-.TH "GIT\-FORK" "1" "April 2015" "" ""
+.TH "GIT\-FORK" "1" "December 2015" "" ""
 .
 .SH "NAME"
 \fBgit\-fork\fR \- Fork a repo on github
@@ -19,7 +19,7 @@ forks the repo on github
 clones the repo into the current dir
 .
 .IP "3." 4
-adds the original repo as a remote
+adds the original repo as a remote called upstream
 .
 .IP "" 0
 .
@@ -60,10 +60,10 @@ $ \.\.<forks into your github profile and clones repo locally to expect\.js dir>
 
 $ cd expect\.js && git remote \-v
 
-  origin          git@github\.com:<user>/expect\.js (fetch)
-  origin          git@github\.com:<user>/expect\.js (push)
-  original        git@github\.com:LearnBoost/expect\.js (fetch)
-  original        git@github\.com:LearnBoost/expect\.js (push)
+  origin          https://github\.com/<user>/expect\.js (fetch)
+  origin          https://github\.com/<user>/expect\.js (push)
+  upstream        https://github\.com/LearnBoost/expect\.js (fetch)
+  upstream        https://github\.com/LearnBoost/expect\.js (push)
 .
 .fi
 .

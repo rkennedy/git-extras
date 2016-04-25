@@ -11,7 +11,7 @@ git-fork(1) -- Fork a repo on github
 
   1. forks the repo on github
   2. clones the repo into the current dir
-  3. adds the original repo as a remote
+  3. adds the original repo as a remote called upstream
 
 ## EXAMPLE
 
@@ -29,10 +29,10 @@ git-fork(1) -- Fork a repo on github
 
     $ cd expect.js && git remote -v
 
-      origin          git@github.com:<user>/expect.js (fetch)
-      origin          git@github.com:<user>/expect.js (push)
-      original        git@github.com:LearnBoost/expect.js (fetch)
-      original        git@github.com:LearnBoost/expect.js (push)
+      origin          https://github.com/<user>/expect.js (fetch)
+      origin          https://github.com/<user>/expect.js (push)
+      upstream        https://github.com/LearnBoost/expect.js (fetch)
+      upstream        https://github.com/LearnBoost/expect.js (push)
 
 
 ## AUTHOR

@@ -1,47 +1,53 @@
 
- - [`git extras`](#git-extras)
- - [`git squash`](#git-squash)
- - [`git summary`](#git-summary)
- - [`git line-summary`](#git-line-summary)
- - [`git effort`](#git-effort)
+ - [`git alias`](#git-alias)
+ - [`git archive-file`](#git-archive-file)
  - [`git authors`](#git-authors)
  - [`git changelog`](#git-changelog)
+ - [`git clear`](#git-clear)
  - [`git commits-since`](#git-commits-since)
+ - [`git contrib`](#git-contrib)
  - [`git count`](#git-count)
  - [`git create-branch`](#git-create-branch)
  - [`git delete-branch`](#git-delete-branch)
+ - [`git delete-merged-branches`](#git-delete-merged-branches)
  - [`git delete-submodule`](#git-delete-submodule)
  - [`git delete-tag`](#git-delete-tag)
- - [`git delete-merged-branches`](#git-delete-merged-branches)
- - [`git fresh-branch`](#git-fresh-branch)
- - [`git guilt`](#git-guilt)
- - [`git merge-into`](#git-merge-into)
- - [`git graft`](#git-graft)
- - [`git alias`](#git-alias)
- - [`git ignore`](#git-ignore)
- - [`git info`](#git-info)
+ - [`git delta`](#git-delta)
+ - [`git effort`](#git-effort)
+ - [`git extras`](#git-extras)
+ - [`git feature|refactor|bug|chore`](#git-featurerefactorbugchore)
  - [`git fork`](#git-fork)
- - [`git release`](#git-release)
- - [`git contrib`](#git-contrib)
- - [`git repl`](#git-repl)
- - [`git undo`](#git-undo)
+ - [`git fresh-branch`](#git-fresh-branch)
  - [`git gh-pages`](#git-gh-pages)
- - [`git scp`](#git-scp)
- - [`git setup`](#git-setup)
- - [`git touch`](#git-touch)
- - [`git obliterate`](#git-obliterate)
- - [`git feature|refactor|bug|chore`](#git-feature)
+ - [`git graft`](#git-graft)
+ - [`git guilt`](#git-guilt)
+ - [`git ignore`](#git-ignore)
+ - [`git ignore-io`](#git-ignore-io)
+ - [`git info`](#git-info)
+ - [`git line-summary`](#git-line-summary)
  - [`git local-commits`](#git-local-commits)
- - [`git archive-file`](#git-archive-file)
- - [`git missing`](#git-missing)
  - [`git lock`](#git-lock)
  - [`git locked`](#git-locked)
- - [`git unlock`](#git-unlock)
- - [`git reset-file`](#git-reset-file)
- - [`git pr`](#git-pr)
- - [`git root`](#git-root)
- - [`git delta`](#git-delta)
+ - [`git merge-into`](#git-merge-into)
  - [`git merge-repo`](#git-merge-repo)
+ - [`git missing`](#git-missing)
+ - [`git obliterate`](#git-obliterate)
+ - [`git pr`](#git-pr)
+ - [`git psykorebase`](#git-psykorebase)
+ - [`git release`](#git-release)
+ - [`git repl`](#git-repl)
+ - [`git reset-file`](#git-reset-file)
+ - [`git root`](#git-root)
+ - [`git scp`](#git-scp)
+ - [`git sed`](#git-sed)
+ - [`git setup`](#git-setup)
+ - [`git standup`](#git-standup)
+ - [`git squash`](#git-squash)
+ - [`git summary`](#git-summary)
+ - [`git sync`](#git-sync)
+ - [`git touch`](#git-touch)
+ - [`git undo`](#git-undo)
+ - [`git unlock`](#git-unlock)
 
 ## git extras
 
@@ -68,9 +74,9 @@ $ git extras update
 
 Sets up the `gh-pages` branch.  (See [GitHub Pages](http://pages.github.com/) documentation.)
 
-## git feature
+## git feature|refactor|bug|chore
 
-Create the given feature, refactor, bug or chore branch `name`:
+Create/Merge the given feature, refactor, bug or chore branch `name`:
 
 ```bash
 $ git feature dependencies
@@ -90,7 +96,7 @@ $ git checkout master
 $ git feature finish dependencies
 ```
 
-All of this works with `feature`, `bug`, or `refactor`.
+All of this works with `feature`, `bug`, `chore` or `refactor`.
 
 ## git contrib
 
@@ -198,6 +204,12 @@ node (master): git effort --above 15 {src,lib}/*
 
 ```
 $ git effort --above 5
+```
+
+  If you wish to see only the commits in the last month you may use `--since` (it supports the same syntax like `git log --since`):
+  
+```
+ $ git effort --since='last month'
 ```
 
   By default `git ls-files` is used, however you may pass one or more files to `git-effort(1)`, for example:
@@ -366,14 +378,87 @@ $ git ignore build "*.o" "*.log"
 ... added '*.log'
 ```
 
-Without any patterns, `git-ignore` displays currently ignored patterns:
+Without any patterns, `git-ignore` displays currently ignored patterns in both your global and your local `.gitignore` files:
 
 ```bash
 $ git ignore
+Global gitignore: /Users/foo/.gitignore_global
+*~
+.metadata
+---------------------------------
+Local gitignore: .gitignore
 build
 *.o
 *.log
 ```
+
+To show just the global or just the local file's contents, you can use the following optional parameters:
+
+* `-g` or `--global` to show just the global file
+* `-l` or `--local` to show just the local file
+ 
+```bash
+$ git ignore -g
+Global gitignore: /Users/foo/.gitignore_global
+*~
+.metadata
+```
+
+```bash
+$ git ignore -l
+Local gitignore: .gitignore
+build
+*.o
+*.log
+```
+
+## git ignore-io
+
+Generate sample gitignore file from [gitignore.io](https://www.gitignore.io)  
+
+Without option, `git ignore-io <type>` shows the sample gitignore of specified types on screen.  
+
+```bash
+$ git ignore-io vim
+
+    # Created by https://www.gitignore.io/api/vim
+
+    ### Vim ###
+    [._]*.s[a-w][a-z]
+    [._]s[a-w][a-z]
+    *.un~
+    Session.vim
+    .netrwhist
+    *~
+```
+  
+To export it to `.gitignore` file you can use the following options:  
+
+* `-a` or `--append` to append the result to `.gitignore`
+* `-e` or `--export` to replace `.gitignore` with the result
+
+```bash
+$ git ignore-io vim python
+```
+
+For efficiency, `git ignore-io` store all available types at `~/.gi_list`.  
+To list all the available types:
+
+* `-l` or `-L` : These two options will show the list in different format. Just try it.
+  
+You can also search type from the list by:
+
+* `-s <word>` or `--search <word>`
+
+```bash
+$ git ignore-io -s ja
+
+    django
+    jabref
+    java
+    ninja
+```
+
 
 ## git info
 
@@ -511,11 +596,10 @@ $ git merge-into [src] dest
 
 ## git graft
 
-Merge commits from `src-branch` into `dest-branch`. (`dest-branch` defaults to `master`.)
+Merge commits from `src-branch` into `dest-branch`.
 
 ```bash
-$ git graft new_feature dev
-$ git graft new_feature
+$ git graft new_feature master
 ```
 
 ## git squash
@@ -668,6 +752,10 @@ Remove the latest 3 commits:
 git undo 3
 ```
 
+## git sed
+
+Run grep as directed but replace the given files with the pattern.
+
 ## git setup
 
 Set up a git repository (if one doesn't exist), add all files, and make an initial commit. `dir` defaults to the current working directory.
@@ -706,6 +794,13 @@ Internally this script uses `rsync` and not `scp` as the name suggests.
 
     $ git scp staging js/vendor/
 
+## git standup
+
+Recall what you did or find what someone else did in a given range of time.
+For instance, recall John's commits since last week:
+```
+git standup John "last week"
+```
 
 ## git touch
 
@@ -805,6 +900,31 @@ From https://github.com/tj/git-extras
 Switched to branch 'pr/226'
 ```
 
+To use a remote other than `origin`, e.g. `upstream` if you're working in a fork, specify it as the second parameter:
+
+```bash
+$ git pr 226 upstream
+From https://github.com/tj/git-extras
+ * [new ref]       refs/pulls/226/head -> pr/226
+Switched to branch 'pr/226'
+```
+
+You can also checkout a pull request based on a GitHub url
+
+```bash
+$ git pr https://github.com/tj/git-extras/pull/453
+From https://github.com/tj/git-extras
+ * [new ref]         refs/pull/453/head -> pr/453
+Switched to branch 'pr/453'
+```
+
+To remove all local pull request branches, provide the magic `clean` parameter:
+
+```bash
+$ git pr clean
+Deleted branch 'pr/226' (was 1234567).
+```
+
 ## git root
 
 show the path to root directory of git repo
@@ -834,6 +954,10 @@ Makefile
 README.md
 ```
 
+## git clear
+
+Does a hard reset and deletes all untracked files from the working directory
+
 ## git merge-repo
 
 Merges two repository histories.
@@ -849,3 +973,41 @@ $ git merge-repo git@github.com:tj/git-extras.git master .
 ```
 
 The above merges a remote repo's `master` branch into the current repository's directory, not preserving history.
+
+
+## git psykorebase
+
+Rebase a branch on top of another using a merge commit and only one conflict handling.
+
+```bash
+$ git psykorebase master
+```
+
+The above rebase the current branch on top of `master` branch .
+
+```bash
+$ git psykorebase --continue
+```
+
+The above continue the rebase after conflicts have been handled.
+
+```bash
+$ git psykorebase master feature
+```
+
+The above rebase `feature` branch on top of `master` branch
+
+## git sync
+
+Sync local branch with its remote branch
+
+```bash
+$ git sync
+```
+
+Sync local branch with origin/master
+
+```bash
+$ git sync origin master
+```
+

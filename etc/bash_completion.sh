@@ -61,7 +61,18 @@ _git_delete_tag(){
 }
 
 _git_effort(){
-  __gitcomp "--above"
+  __git_has_doubledash && return
+
+  case "$cur" in
+  --*)
+    __gitcomp "
+      --above
+      $__git_log_common_options
+      $__git_log_shortlog_options
+      "
+    return
+    ;;
+  esac
 }
 
 _git_extras(){
@@ -96,6 +107,10 @@ _git_ignore(){
 _git_missing(){
     # Suggest all known refs
     __gitcomp "$(git for-each-ref --format='%(refname:short)')"
+}
+
+_git_psykorebase(){
+  __gitcomp "$(__git_heads) --continue --no-ff"
 }
 
 _git_refactor(){
